@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Papita Feliz - Tu Tienda de Papas Fritas</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1, h2 {
+            color: #e44d26;
+            text-align: center;
+        }
+        .menu {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .menu-item {
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        .menu-item:hover {
+            background-color: #f9f9f9;
+        }
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+        .precio {
+            color: green;
+            font-weight: bold;
+        }
+        .promociones {
+            background-color: #f9d771;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+        .pedido {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="number"] {
+            width: 60px;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+        input[type="checkbox"], button {
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #e44d26;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #d13c17;
+        }
+        .resumen-pedido {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+        .resumen-pedido h3 {
+            margin-top: 0;
+        }
+        .bebida-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+        .bebida-item:last-child {
+            border-bottom: none;
+        }
+        .bebida-item:hover {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>🍟 La Papita Feliz 🍟</h1>
+
+    <section class="menu">
+        <h2>Nuestro Menú de Papas Fritas</h2>
+        <div class="menu-item" onclick="seleccionarPapa('mini', 500)">
+            <h3>Cono de Papas Mini</h3>
+            <span class="precio">$500</span>
+            <p>Perfecto para un antojo pequeño.</p>
+        </div>
+        <div class="menu-item" onclick="seleccionarPapa('chico', 2500)">
+            <h3>Cono de Papas Chico</h3>
+            <span class="precio">$2500</span>
+            <p>El tamaño ideal para disfrutar solo.</p>
+        </div>
+        <div class="menu-item" onclick="seleccionarPapa('grande', 3500)">
+            <h3>Cono de Papas Grande</h3>
+            <span class="precio">$3500</span>
+            <p>Para compartir o para los más fanáticos.</p>
+        </div>
+        <div class="menu-item" onclick="seleccionarPapa('extra_grande', 4000)">
+            <h3>Cono de Papas Extra Grande</h3>
+            <span class="precio">$4000</span>
+            <p>¡La montaña de papas para los verdaderos amantes!</p>
+        </div>
+    </section>
+
+    <section class="promociones">
+        <h2>¡Promociones Especiales!</h2>
+        <p>🎉 ¡Llévate un Cono Grande con 15% de descuento los martes y jueves!</p>
+        <p>🎉 ¡Disfruta de un 10% de descuento en tu pedido total al agregar 2 o más aderezos!</p>
+    </section>
+
+    <section class="pedido">
+        <h2>¡Haz tu Pedido Aquí!</h2>
+        <form id="formulario-pedido">
+            <h3>Cantidad de Papas</h3>
+            <div>
+                <label for="cantidad_mini">Mini ($500):</label>
+                <input type="number" id="cantidad_mini" name="cantidad_mini" value="0" min="0" onchange="actualizarPedido()">
+            </div>
+            <div>
+                <label for="cantidad_chico">Chico ($2500):</label>
+                <input type="number" id="cantidad_chico" name="cantidad_chico" value="0" min="0" onchange="actualizarPedido()">
+            </div>
+            <div>
+                <label for="cantidad_grande">Grande ($3500):</label>
+                <input type="number" id="cantidad_grande" name="cantidad_grande" value="0" min="0" onchange="actualizarPedido()">
+            </div>
+            <div>
+                <label for="cantidad_extra_grande">Extra Grande ($4000):</label>
+                <input type="number" id="cantidad_extra_grande" name="cantidad_extra_grande" value="0" min="0" onchange="actualizarPedido()">
+            </div>
+
+            <label>Aderezos (puedes elegir varios):</label>
+            <div>
+                <input type="checkbox" id="mayonesa" name="aderezo" value="mayonesa" onchange="actualizarPedido()">
+                <label for="mayonesa">Mayonesa</label>
+            </div>
+            <div>
+                <input type="checkbox" id="ketchup" name="aderezo" value="ketchup" onchange="actualizarPedido()">
+                <label for="ketchup">Ketchup</label>
+            </div>
+            <div>
+                <input type="checkbox" id="mostaza" name="aderezo" value="mostaza" onchange="actualizarPedido()">
+                <label for="mostaza">Mostaza</label>
+            </div>
+            <div>
+                <input type="checkbox" id="parmesano" name="aderezo" value="parmesano" onchange="actualizarPedido()">
+                <label for="parmesano">Queso Parmesano</label>
+            </div>
+            <div>
+                <input type="checkbox" id="cheddar" name="aderezo" value="cheddar" onchange="actualizarPedido()">
+                <label for="cheddar">Cheddar</label>
+            </div>
+            <div>
+                <input type="checkbox" id="salchicha" name="aderezo" value="salchicha" onchange="actualizarPedido()">
+                <label for="salchicha">Salchichas</label>
+            </div>
+
+            <h3>Cantidad de Bebidas</h3>
+            <div class="bebida-item" onclick="seleccionarBebida('agua', 800)">
+                <label for="cantidad_agua">Agua ($800):</label>
+                <input type="number" id="cantidad_agua" name="cantidad_agua" value="0" min="0" onchange="actualizarPedido()">
+            </div>
+            <div class="bebida-item" onclick="seleccionarBebida('jugo_naranja', 1200)">
+                <label for="cantidad_jugo_naranja">Jugo de Naranja ($1200):</label>
+                <input type="number" id="cantidad_jugo_naranja" name="cantidad_jugo_naranja" value="0" min="0" onchange="actualizarPedido()">
+            </div>
+            <div class="bebida-item" onclick="seleccionarBebida('coca', 1500)">
+                <label for="cantidad_coca">Coca-Cola ($1500):</label>
+                <input type="number" id="cantidad_coca" name="cantidad_coca" value="0" min="0" onchange="actualizarPedido()">
+            </div>
+            <div class="bebida-item" onclick="seleccionarBebida('sprite', 1500)">
+                <label for="cantidad_sprite">Sprite ($1500):</label>
+                <input type="number" id="cantidad_sprite" name="cantidad_sprite" value="0" min="0" onchange="actualizarPedido()">
+            </div>
+            <div class="bebida-item" onclick="seleccionarBebida('fanta', 1500)">
+                <label for="cantidad_fanta">Fanta ($1500):</label>
+                <input type="number" id="cantidad_fanta" name="cantidad_fanta" value="0" min="0" onchange="actualizarPedido()">
+            </div>
+
+            <button type="button" onclick="realizarPedido()">Realizar Pedido</button>
+
+            <div class="resumen-pedido">
+                <h3>Resumen del Pedido</h3>
+                <p id="resumen-papas">Papas: Ninguna</p>
+                <p id="resumen-aderezos">Aderezos: Ninguno</p>
+                <p id="resumen-bebidas">Bebidas: Ninguna</p>
+                <p>Total: $<span id="total-pedido">0</span></p>
+            </div>
+        </form>
+        <div id="resultado-pedido"></div>
+    </section>
+
+    <script>
+        let pedido = {
+            papas: {},
+            aderezos: [],
+            bebidas: {}
+        };
+
+        function seleccionarPapa(tamano, precio) {
+            const cantidadInputId = `cantidad_${tamano.replace('_', '')}`;
+            document.getElementById(cantidadInputId).value = parseInt(document.getElementById(cantidadInputId).value) + 1;
+            actualizarPedido();
+        }
+
+        function seleccionarBebida(nombre, precio) {
+            const cantidadInputId = `cantidad_${nombre.replace('_', '')}`;
+            document.getElementById(cantidadInputId).value = parseInt(document.getElementById(cantidadInputId).value) + 1;
+            actualizarPedido();
+        }
+
+        function actualizarPedido() {
+            pedido.papas = {
+                mini: { cantidad: parseInt(document.getElementById("cantidad_mini").value), precio: 500 },
+                chico: { cantidad: parseInt(document.getElementById("cantidad_chico").value), precio: 2500 },
+                grande: { cantidad: parseInt(document.getElementById("cantidad_grande").value), precio: 3500 },
+                extra_grande: { cantidad: parseInt(document.getElementById("cantidad_extra_grande").value), precio: 4000 }
+            };
+            pedido.aderezos = Array.from(document.querySelectorAll('input[name="aderezo"]:checked'))
+                .map(checkbox => checkbox.value);
+            pedido.bebidas = {
+                agua: { cantidad: parseInt(document.getElementById("cantidad_agua").value), precio: 800 },
+                jugo_naranja: { cantidad: parseInt(document.getElementById("cantidad_jugo_naranja").value), precio: 1200 },
+                coca: { cantidad: parseInt(document.getElementById("cantidad_coca").value), precio: 1500 },
+                sprite: { cantidad: parseInt(document.getElementById("cantidad_sprite").value), precio: 1500 },
+                fanta: { cantidad: parseInt(document.getElementById("cantidad_fanta").value), precio: 1500 }
+            };
+
+            actualizarResumen();
+        }
+
+        function actualizarResumen() {
+            let resumenPapas = "Papas: ";
+            let totalPapas = 0;
+            let hayPapas = false;
+            for (const tamano in pedido.papas) {
+                if (pedido.papas[tamano].cantidad > 0) {
+                    resumenPapas += `${tamano} (${pedido.papas[tamano].cantidad} x $${pedido.papas[tamano].precio}), `;
+                    totalPapas += pedido.papas[tamano].cantidad * pedido.papas[tamano].precio;
+                    hayPapas = true;
+                }
+            }
+            resumenPapas = hayPapas ? resumenPapas.slice(0, -2) : "Ninguna";
+            document.getElementById("resumen-papas").innerText = resumenPapas;
+
+            const resumenAderezos = pedido.aderezos.length > 0 ? `Aderezos: ${pedido.aderezos.join(", ")}` : "Aderezos: Ninguno";
+            document.getElementById("resumen-aderezos").innerText = resumenAderezos;
+
+            let resumenBebidas = "Bebidas: ";
+            let totalBebidas = 0;
+            let hayBebidas = false;
+            for (const bebida in pedido.bebidas) {
+                if (pedido.bebidas[bebida].cantidad > 0) {
+                    resumenBebidas += `${bebida} (${pedido.bebidas[bebida].cantidad} x $${pedido.bebidas[bebida].precio}), `;
+                    totalBebidas += pedido.bebidas[bebida].cantidad * pedido.bebidas[bebida].precio;
+                    hayBebidas = true;
+                }
+            }
+            resumenBebidas = hayBebidas ? resumenBebidas.slice(0, -2) : "Ninguna";
+            document.getElementById("resumen-bebidas").innerText = resumenBebidas;
+
+            document.getElementById("total-pedido").innerText = totalPapas + totalBebidas;
+        }
+
+        function realizarPedido() {
+            let mensajePedido = "Pedido:\n";
+            let totalFinal = 0;
+
+            mensajePedido += "Papas:\n";
+            for (const tamano in pedido.papas) {
+                if (pedido.papas[tamano].cantidad > 0) {
+                    mensajePedido += `- ${tamano}: ${pedido.papas[tamano].cantidad} x $${pedido.papas[tamano].precio} = $${pedido.papas[tamano].cantidad * pedido.papas[tamano].precio}\n`;
+                    totalFinal += pedido.papas[tamano].cantidad * pedido.papas[tamano].precio;
+                }
+            }
+
+            if (pedido.aderezos.length > 0) {
+                mensajePedido += "Aderezos: " + pedido.aderezos.join(", ") + "\n";
+            }
+
+            mensajePedido += "Bebidas:\n";
+            for (const bebida in pedido.bebidas) {
+                if (pedido.bebidas[bebida].cantidad > 0) {
+                    mensajePedido += `- ${bebida}: ${pedido.bebidas[bebida].cantidad} x $${pedido.bebidas[bebida].precio} = $${pedido.bebidas[bebida].cantidad * pedido.bebida[bebida].precio}\n`;
+                    totalFinal += pedido.bebidas[bebida].cantidad * pedido.bebida[bebida].precio;
+                }
+            }
+
+            mensajePedido += `Total: $${totalFinal}`;
+
+            document.getElementById("resultado-pedido").innerText = mensajePedido;
+            alert("¡Tu pedido ha sido registrado! (Esta es una simulación)");
+            document.getElementById("formulario-pedido").reset();
+            pedido = { papas: {}, aderezos: [], bebidas: {} };
+            actualizarResumen();
+        }
+
+        // Inicializar el pedido y el resumen
+        actualizarPedido();
+    </script>
+</body>
+</html>
